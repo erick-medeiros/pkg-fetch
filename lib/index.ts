@@ -121,14 +121,15 @@ export async function need(opts: NeedOptions) {
   let fetchFailed;
 
   if (!forceBuild) {
+    return fetched;
     if (await exists(fetched)) {
       if (dryRun) {
         return 'exists';
       }
 
-      // if ((await hash(fetched)) === EXPECTED_HASHES[remote.name]) {
+      if ((await hash(fetched)) === EXPECTED_HASHES[remote.name]) {
         return fetched;
-      // }
+      }
 
       log.info('Binary hash does NOT match. Re-fetching...');
       fs.unlinkSync(fetched);
